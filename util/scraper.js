@@ -8,9 +8,19 @@ function scrape(id){
 	request(url, function(error, response, html){
 		if(!error){
 			var $ = cheerio.load(html);
-			console.log(html);
+			var rows = $("tr");
+			var players = 0;
+
+
+			for (var i = 3; i < rows.length; i++){
+				var rowHtml = $(rows[i]).html();
+				
+				if (rowHtml.indexOf("PLANNING") > -1){ players++; }
+				else {break; }
+			}
+			console.log("Players: " + players);
 		}
 	});
 }
 
-scrape(30000);
+scrape(34249);
