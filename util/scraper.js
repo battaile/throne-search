@@ -13,6 +13,10 @@ function getPlayerCount(rows, $){
 	return players;
 }
 
+function process(result){
+	console.log(result);
+}
+
 function scrape(id){
 	var url = "http://game.thronemaster.net/?game=" + id + "&show=log";
 
@@ -20,14 +24,13 @@ function scrape(id){
 		if(!error){
 			var $ = cheerio.load(html);
 			var rows = $("tr");
-			
-			var players = getPlayerCount(rows, $);
 
-			var result = {playerCount: players};
-			console.log(JSON.stringify(result));
-			return result;
+			var playerCount = getPlayerCount(rows, $);
+			var result = {playerCount: playerCount};
+			process(result);
 		}
 	});
 }
 
 scrape(34249);
+
