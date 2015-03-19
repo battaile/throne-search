@@ -28,16 +28,18 @@ function getWinningUser(rows, $){
 
 function getWinner(rows, $){
 	var winningUser = getWinningUser(rows,$);
-	var winner = '';
+	if (winningUser === '') return '';
+	
 	for (var i = 3; i < rows.length; i++){
 		var rowHtml = $(rows[i]).html();
 		if (rowHtml.indexOf(winningUser) > -1){  
 			var cells = $(rows[i]).find('td');
-			console.log ($(cells[4]).text());
-			break;
+			var winnerCellHtml = $(cells[2]).text();
+			var winner = winnerCellHtml.substring(0, winnerCellHtml.indexOf(' '));
+			return winner;
 		}
 	}
-	return winner;
+	return '';
 }
 
 function process(result){
