@@ -13,24 +13,41 @@ function getPlayerCount(rows, $){
 	return players;
 }
 
+function getWinningUser(rows, $){
+	// more efficient to start at the end
+	for (var i = rows.length - 1; i >= 0; i--){
+		if ($(rows[i]).html().indexOf("GAME END") > -1 ) {
+			var cells = $(rows[i]).find('td');
+			return $(cells[3]).text();
+		}
+	}
+	return '';
+}
+
+function getWinner(rows, $){
+	var winningUser = getWinningUser(rows,$);
+
+}
+
 function process(result){
 	console.log(result);
 }
 
 function scrape(id){
 	var url = "http://game.thronemaster.net/?game=" + id + "&show=log";
-
+	var result = {finished: false};
 	request(url, function(error, response, html){
 		if(!error){
 			var $ = cheerio.load(html);
 			var rows = $("tr");
 
 			var playerCount = getPlayerCount(rows, $);
-			var result = {playerCount: playerCount};
+			var winner = getWinner(rows,$);
+			result = {finished: true, playerCount: playerCount, winner: winner};
 			process(result);
 		}
 	});
 }
 
-scrape(34249);
+scrape(35791);
 
