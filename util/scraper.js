@@ -16,9 +16,11 @@ function getPlayerCount(rows, $){
 function getWinningUser(rows, $){
 	// more efficient to start at the end
 	for (var i = rows.length - 1; i >= 0; i--){
-		if ($(rows[i]).html().indexOf("GAME END") > -1 ) {
+		if ($(rows[i]).html().indexOf("wins this game of thrones") > -1 ) {
 			var cells = $(rows[i]).find('td');
-			return $(cells[3]).text();
+			var userCellHtml = $(cells[2]).text();
+			var user = userCellHtml.substring(0, userCellHtml.indexOf(' '));
+			return user;
 		}
 	}
 	return '';
@@ -26,7 +28,16 @@ function getWinningUser(rows, $){
 
 function getWinner(rows, $){
 	var winningUser = getWinningUser(rows,$);
-
+	var winner = '';
+	for (var i = 3; i < rows.length; i++){
+		var rowHtml = $(rows[i]).html();
+		if (rowHtml.indexOf(winningUser) > -1){  
+			var cells = $(rows[i]).find('td');
+			console.log ($(cells[4]).text());
+			break;
+		}
+	}
+	return winner;
 }
 
 function process(result){
@@ -49,5 +60,6 @@ function scrape(id){
 	});
 }
 
-scrape(35791);
+scrape(36177);
+scrape(36573);
 
