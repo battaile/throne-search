@@ -1,5 +1,6 @@
 var request = require("request");
 var cheerio = require("cheerio");
+var fs = require("fs");
 
 function getPlayerCount(rows, $){
 	var players = 0;
@@ -48,6 +49,7 @@ function scrape(id){
 	var url = "http://game.thronemaster.net/?game=" + id + "&show=log";
 	var result;
 	request(url, function(error, response, html){
+		console.log('processing ' + id);
 		if(!error){
 			var $ = cheerio.load(html);
 			var rows = $("tr");
@@ -55,14 +57,15 @@ function scrape(id){
 			var playerCount = getPlayerCount(rows, $);
 			var winner = getWinner(rows,$);
 			game = {finished: (winner != ''), playerCount: playerCount, winner: winner};
-			if (game && game.finished && game.winner === 'Stark' && game.playerCount === 6){
-				console.log(id);
+			if (game && game.finished){
+				fs.appendFileSync('data.txt', id + ' ' + game.winner + ' ' + game.playerCount + '\n');
 			}
 		}
 	});
 }
 
 for (var i = 36600; i > 0; i--){
+	console.log('scraping ' + i);
 	scrape(i);
 }
 
