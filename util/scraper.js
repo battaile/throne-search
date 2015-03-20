@@ -29,7 +29,7 @@ function getWinningUser(rows, $){
 function getWinner(rows, $){
 	var winningUser = getWinningUser(rows,$);
 	if (winningUser === '') return '';
-	
+
 	for (var i = 3; i < rows.length; i++){
 		var rowHtml = $(rows[i]).html();
 		if (rowHtml.indexOf(winningUser) > -1){  
@@ -42,9 +42,7 @@ function getWinner(rows, $){
 	return '';
 }
 
-function process(result){
-	console.log(result);
-}
+
 
 function scrape(id){
 	var url = "http://game.thronemaster.net/?game=" + id + "&show=log";
@@ -56,12 +54,16 @@ function scrape(id){
 
 			var playerCount = getPlayerCount(rows, $);
 			var winner = getWinner(rows,$);
-			result = {finished: (winner != ''), playerCount: playerCount, winner: winner};
-			process(result);
+			game = {finished: (winner != ''), playerCount: playerCount, winner: winner};
+			if (game && game.finished && game.winner === 'Stark' && game.playerCount === 6){
+				console.log(id);
+			}
 		}
 	});
 }
 
-scrape(36177);
-scrape(36573);
+for (var i = 36600; i > 0; i--){
+	scrape(i);
+}
+
 
