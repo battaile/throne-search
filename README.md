@@ -1,7 +1,7 @@
 # throne-search
 Find old thronemaster games.
 
-
+##Usage
 ```
 var currentGameId = 37000;
 ```
@@ -19,3 +19,7 @@ for (var i = currentGameId; i > 0; i--){
 	logIfMatch(i, 'Stark', 6);
 }
 ```
+
+##Requires
+cheerio.js
+request.js
