@@ -45,7 +45,7 @@ function getWinner(rows, $){
 
 
 
-function scrape(id){
+function scrapeToFile(id){
 	var url = "http://game.thronemaster.net/?game=" + id + "&show=log";
 	var result;
 	request(url, function(error, response, html){
@@ -64,9 +64,19 @@ function scrape(id){
 	});
 }
 
-for (var i = 36600; i > 0; i--){
-	console.log('scraping ' + i);
-	scrape(i);
-}
+function logIfMatch(id, winner, playerCount){
+	var url = "http://game.thronemaster.net/?game=" + id + "&show=log";
+	var result;
+	request(url, function(error, response, html){
+		if(!error){
+			var $ = cheerio.load(html);
+			var rows = $("tr");
 
+			if (playerCount !== getPlayerCount(rows, $)) return;
+			if (winner !== getWinner(rows,$)) return;
+
+			console.log(id);
+		}
+	});
+}
 
