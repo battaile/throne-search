@@ -21,5 +21,5 @@ for (var i = currentGameId; i > 0; i--){
 ```
 
 ##Requires
-cheerio.js
-request.js
+- cheerio.js
+- request.js
